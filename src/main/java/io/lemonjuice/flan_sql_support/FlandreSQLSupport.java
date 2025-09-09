@@ -4,13 +4,11 @@ import com.google.common.eventbus.Subscribe;
 import io.lemonjuice.flan_sql_support.config.SQLConfig;
 import io.lemonjuice.flan_sql_support.config.SQLConfigChecker;
 import io.lemonjuice.flan_sql_support.network.SQLCore;
-import io.lemonjuice.flandre_bot.event.annotation.EventSubscriber;
-import io.lemonjuice.flandre_bot.event.meta.BotStopEvent;
-import io.lemonjuice.flandre_bot.event.meta.PluginLoadEvent;
+import io.lemonjuice.flandre_bot_framework.event.annotation.EventSubscriber;
+import io.lemonjuice.flandre_bot_framework.event.meta.BotStopEvent;
+import io.lemonjuice.flandre_bot_framework.event.meta.PluginLoadEvent;
 import lombok.extern.log4j.Log4j2;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.concurrent.CountDownLatch;
 
 @EventSubscriber

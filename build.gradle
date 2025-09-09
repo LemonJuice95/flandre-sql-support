@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.github.lemonjuice95'
-version = '0.1.0'
+version = '0.2.0'
 
 java {
     toolchain {
@@ -26,10 +26,81 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
-    implementation 'io.github.lemonjuice95:flandre-bot-framework:0.2.2'
+    implementation 'io.github.lemonjuice95:flandre-bot-framework:0.3.0'
 
     implementation 'com.zaxxer:HikariCP:7.0.2'
     implementation 'com.mysql:mysql-connector-j:9.4.0'
+}
+
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+        mode = 'FILE'
+        publicKey = rootProject.findProperty("gpg.publicKey")
+        secretKey = rootProject.findProperty("gpg.secretKey")
+        passphrase = rootProject.findProperty("gpg.passphrase")
+    }
+
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/staging-deploy')
+
+                    username = rootProject.findProperty("gpg.mavenUsername")
+                    password = rootProject.findProperty("gpg.mavenPassword")
+                }
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        maven (MavenPublication) {
+            groupId = 'io.github.lemonjuice95'
+            artifactId = 'flandre-sql-support'
+            version = project.version
+
+            from components.java
+
+            pom {
+                name = 'Flandre SQL Support'
+                description = 'A MySQL support plugin for io.github.lemonjuice95:flandre-bot-framework'
+                url = 'https://github.com/LemonJuice95/flandre-sql-support'
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/license/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'lemonjuice95'
+                        name = 'LemonJuice95'
+                        email = '1582017385@qq.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/LemonJuice95/flandre-sql-support'
+                    developerConnection = 'scm:git:ssh://github.com/LemonJuice95/flandre-sql-support'
+                    url = 'https://github.com/LemonJuice95/flandre-sql-support'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url = layout.buildDirectory.dir('staging-deploy')
+        }
+    }
 }
 
 test {

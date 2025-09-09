@@ -1,7 +1,7 @@
 package io.lemonjuice.flan_sql_support.network;
 
 import io.lemonjuice.flan_sql_support.config.SQLConfig;
-import io.lemonjuice.flandre_bot.FlandreBot;
+import io.lemonjuice.flandre_bot_framework.FlandreBot;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
