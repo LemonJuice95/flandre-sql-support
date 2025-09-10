@@ -6,24 +6,27 @@ import io.lemonjuice.flan_sql_support.config.SQLConfigChecker;
 import io.lemonjuice.flan_sql_support.network.SQLCore;
 import io.lemonjuice.flandre_bot_framework.event.annotation.EventSubscriber;
 import io.lemonjuice.flandre_bot_framework.event.meta.BotStopEvent;
-import io.lemonjuice.flandre_bot_framework.event.meta.PluginLoadEvent;
-import lombok.extern.log4j.Log4j2;
-
-import java.util.concurrent.CountDownLatch;
+import io.lemonjuice.flandre_bot_framework.event.meta.PluginRegisterEvent;
+import io.lemonjuice.flandre_bot_framework.plugins.BotPlugin;
 
 @EventSubscriber
-@Log4j2
-public class FlandreSQLSupport {
-    public static final CountDownLatch loaded = new CountDownLatch(1);
+public class FlandreSQLSupport implements BotPlugin {
+    @Override
+    public String getName() {
+        return "Flandre SQL Support";
+    }
 
-    @Subscribe
-    public void loadPlugin(PluginLoadEvent event) {
-        log.info("正在加载插件: Flandre SQL Support");
+    @Override
+    public void load() {
         SQLConfigChecker.check();
         SQLConfig.read();
         String url = String.format("jdbc:mysql://%s:%d/%s", SQLConfig.HOST.get(), SQLConfig.PORT.get(), SQLConfig.DB_NAME.get());
         SQLCore.connect(url, SQLConfig.USERNAME.get(), SQLConfig.PASSWORD.get());
-        loaded.countDown();
+    }
+
+    @Subscribe
+    public void registerPlugin(PluginRegisterEvent event) {
+        event.register(this);
     }
 
     @Subscribe
