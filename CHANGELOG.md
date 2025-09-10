@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.0
+- 适配新的插件加载器
+
 ## v0.3.0
 - 将依赖改为compileOnly
 
