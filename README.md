@@ -1,7 +1,7 @@
 # Flandre SQL Support
 [![java21](https://img.shields.io/badge/Java-21-blue.svg)](https://www.oracle.com/java/technologies/downloads/#java21)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Maven](https://img.shields.io/badge/Maven-Central-blue.svg)](https://central.sonatype.com/artifact/io.github.lemonjuice95/flandre-bot-framework)
+[![Maven](https://img.shields.io/badge/Maven-Central-blue.svg)](https://central.sonatype.com/artifact/io.github.lemonjuice95/flandre-sql-support)
 
 为[Flandre-Bot-Framework](https://github.com/LemonJuice95/flandre-bot-framework)开发的MySQL支持插件
 
