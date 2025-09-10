@@ -23,7 +23,7 @@ public class SQLConfig {
 
     public static final Supplier<Integer> POOL_SIZE = () -> Integer.valueOf(properties.getProperty("bot.sql.connection_pool.size"));
     public static final Supplier<Integer> CONNECTION_TIMEOUT = () -> Integer.valueOf(properties.getProperty("bot.sql.connection.timeout_ms"));
-    public static final Supplier<Integer> IDLE_TIMEOUT = () -> Integer.valueOf("bot.sql.connection.idle_timeout_ms");
+    public static final Supplier<Integer> IDLE_TIMEOUT = () -> Integer.valueOf(properties.getProperty("bot.sql.connection.idle_timeout_ms"));
 
     public static final Supplier<Integer> HEARTBEAT_INTERVAL_MS = () -> Integer.valueOf(properties.getProperty("bot.sql.heartbeat.interval_ms"));
 
