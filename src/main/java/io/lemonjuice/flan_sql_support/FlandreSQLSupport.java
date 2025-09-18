@@ -1,12 +1,12 @@
 package io.lemonjuice.flan_sql_support;
 
-import com.google.common.eventbus.Subscribe;
 import io.lemonjuice.flan_sql_support.config.SQLConfig;
 import io.lemonjuice.flan_sql_support.config.SQLConfigChecker;
 import io.lemonjuice.flan_sql_support.event.SQLPreCloseEvent;
 import io.lemonjuice.flan_sql_support.network.SQLCore;
 import io.lemonjuice.flandre_bot_framework.event.BotEventBus;
 import io.lemonjuice.flandre_bot_framework.event.annotation.EventSubscriber;
+import io.lemonjuice.flandre_bot_framework.event.annotation.SubscribeEvent;
 import io.lemonjuice.flandre_bot_framework.event.meta.BotStopEvent;
 import io.lemonjuice.flandre_bot_framework.event.meta.PluginRegisterEvent;
 import io.lemonjuice.flandre_bot_framework.plugins.BotPlugin;
@@ -26,12 +26,12 @@ public class FlandreSQLSupport implements BotPlugin {
         SQLCore.connect(url, SQLConfig.USERNAME.get(), SQLConfig.PASSWORD.get());
     }
 
-    @Subscribe
+    @SubscribeEvent
     public void registerPlugin(PluginRegisterEvent event) {
         event.register(this);
     }
 
-    @Subscribe
+    @SubscribeEvent
     public void onStop(BotStopEvent event) {
         BotEventBus.post(new SQLPreCloseEvent());
         SQLCore.close();
