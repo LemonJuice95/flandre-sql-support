@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.6.0
+- 使用新的EventBus实现（框架版本v0.8.0+）
+
 ## v0.5.0
 - 添加一个`SQLPreCloseEvent`，可以被监听来执行清理逻辑
 
