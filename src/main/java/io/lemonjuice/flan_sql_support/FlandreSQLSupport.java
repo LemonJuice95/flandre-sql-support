@@ -22,14 +22,21 @@ public class FlandreSQLSupport implements BotPlugin {
 
     @Override
     public void load() {
-        SQLConfigChecker.check();
-        SQLConfig.read();
         String url = String.format("jdbc:mysql://%s:%d/%s", SQLConfig.HOST.get(), SQLConfig.PORT.get(), SQLConfig.DB_NAME.get());
         if(!SQLCore.connect(url, SQLConfig.USERNAME.get(), SQLConfig.PASSWORD.get())) {
             throw new PluginLoadingException("SQL连接失败");
         } else {
             BotEventBus.post(new SQLOpenEvent());
         }
+    }
+
+    @Override
+    public boolean initConfig() {
+        if(SQLConfigChecker.check()) {
+            SQLConfig.read();
+            return true;
+        }
+        return false;
     }
 
     @SubscribeEvent

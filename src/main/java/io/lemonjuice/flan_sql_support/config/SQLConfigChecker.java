@@ -9,7 +9,8 @@ import java.io.OutputStream;
 
 @Log4j2
 public class SQLConfigChecker {
-    public static void check() {
+    public static boolean check() {
+        boolean result = true;
         if(!SQLConfig.cfgFile.getParentFile().exists()) {
             SQLConfig.cfgFile.getParentFile().mkdirs();
         }
@@ -23,7 +24,8 @@ public class SQLConfigChecker {
                 log.error("[FlandreSQLSupport] 释放配置文件失败！", e);
             }
             log.warn("[FlandreSQLSupport] 请先进行sql插件配置后再次启动应用");
-            FlandreBot.stop();
+            result = false;
         }
+        return result;
     }
 }
