@@ -5,11 +5,11 @@ plugins {
 }
 
 group = 'io.github.lemonjuice95'
-version = '0.7.0'
+version = '0.8.0'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
     withSourcesJar()
     withJavadocJar()
@@ -23,10 +23,10 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    compileOnly 'org.projectlombok:lombok:1.18.46'
+    annotationProcessor 'org.projectlombok:lombok:1.18.46'
 
-    compileOnly 'io.github.lemonjuice95:flandre-bot-framework:0.18.0'
+    compileOnly 'io.github.lemonjuice95:flandre-bot-framework:0.25.0'
 
     implementation 'com.zaxxer:HikariCP:7.0.2'
     implementation 'com.mysql:mysql-connector-j:9.4.0'
