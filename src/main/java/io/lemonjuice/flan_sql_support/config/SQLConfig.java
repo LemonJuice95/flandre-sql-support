@@ -1,5 +1,8 @@
 package io.lemonjuice.flan_sql_support.config;
 
+import io.lemonjuice.flandre_bot_framework.FlandreBot;
+import io.lemonjuice.flandre_bot_framework.config.BotConfig;
+import io.lemonjuice.flandre_bot_framework.config.ConfigItem;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.File;
@@ -11,30 +14,22 @@ import java.util.function.Supplier;
 
 @Log4j2
 public class SQLConfig {
-    public static final File cfgFile = new File("config/mysql.properties");
+    public static final BotConfig CONFIG = FlandreBot.registerConfig(new BotConfig("./config/mysql.properties", "config/mysql.properties")
+            .failWhenExport()
+            .description("MySQL插件相关配置"));
 
-    private static final Properties properties = new Properties();
+    public static final ConfigItem<String> HOST = CONFIG.register(CONFIG::getString, "bot.sql.host", "");
+    public static final ConfigItem<Integer> PORT = CONFIG.register(CONFIG::getInt, "bot.sql.port", 3306);
+    public static final ConfigItem<String> DB_NAME = CONFIG.register(CONFIG::getString, "bot.sql.db_name", "");
+    public static final ConfigItem<String> USERNAME = CONFIG.register(CONFIG::getString, "bot.sql.username", "");
+    public static final ConfigItem<String> PASSWORD = CONFIG.register(CONFIG::getString,  "bot.sql.password", "");
 
-    public static final Supplier<String> HOST = () -> properties.getProperty("bot.sql.host");
-    public static final Supplier<Integer> PORT = () -> Integer.valueOf(properties.getProperty("bot.sql.port"));
-    public static final Supplier<String> DB_NAME = () -> properties.getProperty("bot.sql.db_name");
-    public static final Supplier<String> USERNAME = () -> properties.getProperty("bot.sql.username");
-    public static final Supplier<String> PASSWORD = () -> properties.getProperty("bot.sql.password");
+    public static final ConfigItem<Integer> POOL_SIZE = CONFIG.register(CONFIG::getInt, "bot.sql.connection_pool.size", 15);
+    public static final ConfigItem<Integer> CONNECTION_TIMEOUT = CONFIG.register(CONFIG::getInt, "bot.sql.connection.timeout_ms", 30000);
+    public static final ConfigItem<Integer> IDLE_TIMEOUT = CONFIG.register(CONFIG::getInt,"bot.sql.connection.idle_timeout_ms", 1800000);
 
-    public static final Supplier<Integer> POOL_SIZE = () -> Integer.valueOf(properties.getProperty("bot.sql.connection_pool.size"));
-    public static final Supplier<Integer> CONNECTION_TIMEOUT = () -> Integer.valueOf(properties.getProperty("bot.sql.connection.timeout_ms"));
-    public static final Supplier<Integer> IDLE_TIMEOUT = () -> Integer.valueOf(properties.getProperty("bot.sql.connection.idle_timeout_ms"));
+    public static final ConfigItem<Integer> HEARTBEAT_INTERVAL_MS = CONFIG.register(CONFIG::getInt, "bot.sql.heartbeat.interval_ms", 30000);
 
-    public static final Supplier<Integer> HEARTBEAT_INTERVAL_MS = () -> Integer.valueOf(properties.getProperty("bot.sql.heartbeat.interval_ms"));
-
-    public static final Supplier<Boolean> SQL_STRONGLY_NEEDED = () -> Boolean.valueOf(properties.getProperty("bot.sql.strongly_need"));
-    public static final Supplier<Integer> MAX_FAILED_COUNT = () -> Integer.valueOf(properties.getProperty("bot.sql.max_failed_count"));
-
-    public static void read() {
-        try (InputStream input = new FileInputStream(cfgFile)) {
-            properties.load(input);
-        } catch (IOException e) {
-            log.error("[FlandreSQLSupport] 加载mysql相关配置失败！", e);
-        }
-    }
+    public static final ConfigItem<Boolean> SQL_STRONGLY_NEEDED = CONFIG.register(CONFIG::getBoolean, "bot.sql.strongly_need", true);
+    public static final ConfigItem<Integer> MAX_FAILED_COUNT = CONFIG.register(CONFIG::getInt, "bot.sql.max_failed_count", 5);
 }

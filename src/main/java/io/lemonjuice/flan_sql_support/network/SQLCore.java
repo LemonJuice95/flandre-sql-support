@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class SQLCore {
     @Getter
     private static volatile SQLCore instance;
-    private static final Thread keepAliveThread = new Thread(new SQLKeepAlive());
+    private static volatile Thread keepAliveThread = new Thread(new SQLKeepAlive());
 
     private final HikariDataSource dataSource;
 
@@ -25,6 +25,25 @@ public class SQLCore {
             instance = new SQLCore(url, username, password);
             keepAliveThread.start();
             log.info("[FlandreSQLSupport] 已连接至SQL数据库");
+            return true;
+        } catch (SQLException e) {
+            log.error("[FlandreSQLSupport] SQL数据库连接失败！", e);
+            return false;
+        }
+    }
+
+    public synchronized static boolean restart(String url, String username, String password) {
+        log.info("[FlandreSQLSupport] 正在重新连接至数据库...");
+        try {
+            try {
+                instance.dataSource.close();
+            } catch (NullPointerException ignored) {
+            }
+            keepAliveThread.interrupt();
+            instance = new SQLCore(url, username, password);
+            keepAliveThread = new Thread(new SQLKeepAlive());
+            keepAliveThread.start();
+            log.info("[FlandreSQLSupport] 已重新连接至SQL数据库");
             return true;
         } catch (SQLException e) {
             log.error("[FlandreSQLSupport] SQL数据库连接失败！", e);
