@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.github.lemonjuice95'
-version = '0.9.0'
+version = '0.11.1'
 
 java {
     toolchain {
@@ -27,8 +27,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.46'
     annotationProcessor 'org.projectlombok:lombok:1.18.46'
 
-    compileOnly 'io.github.lemonjuice95:flandre-bot-framework:0.29.0'
-    annotationProcessor 'io.github.lemonjuice95:flandre-bot-framework:0.29.0:processor'
+    compileOnly 'io.github.lemonjuice95:flandre-bot-framework:0.30.0'
+    annotationProcessor 'io.github.lemonjuice95:flandre-bot-framework:0.30.0:processor'
 
     implementation 'com.zaxxer:HikariCP:7.0.2'
     implementation 'com.mysql:mysql-connector-j:9.4.0'
